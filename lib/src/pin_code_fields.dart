@@ -206,6 +206,7 @@ class PinCodeTextField extends StatefulWidget {
 
   /// define custom borders colors
   final List<Color> customBorders;
+  final List<Color> customFill;
 
   PinCodeTextField({
     Key? key,
@@ -265,6 +266,7 @@ class PinCodeTextField extends StatefulWidget {
     this.autoUnfocus = true,
     this.enableCustomColors = false,
     this.customBorders = const [],
+    this.customFill = const [],
 
     /// Default for [AutofillGroup]
     this.onAutoFillDisposeAction = AutofillContextAction.commit,
@@ -522,11 +524,11 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
   // selects the right color for the field
   Color _getColorFromIndex(int index) {
-    if (!widget.enabled) {
-      return _pinTheme.disabledColor;
-    }
     if (widget.enableCustomColors) {
       return widget.customBorders[index];
+    }
+    if (!widget.enabled) {
+      return _pinTheme.disabledColor;
     }
     if (((_selectedIndex == index) ||
             (_selectedIndex == index + 1 && index + 1 == widget.length)) &&
@@ -590,6 +592,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
 // selects the right fill color for the field
   Color _getFillColorFromIndex(int index) {
+    if (widget.enableCustomColors) {
+      return widget.customFill[index];
+    }
     if (!widget.enabled) {
       return _pinTheme.disabledColor;
     }
